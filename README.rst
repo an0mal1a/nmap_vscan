@@ -6,8 +6,7 @@ nmap_vscan
 
 Requirements
 ============
-
-* Python 2.7
+ 
 * Works on Linux, Windows, Mac OSX, BSD
 
 
