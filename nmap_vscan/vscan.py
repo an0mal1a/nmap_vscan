@@ -417,7 +417,7 @@ class ServiceScan(ServiceProbe):
                 while True:
                     _ = client.recv(SOCKET_READ_BUFFERSIZE)
                     if not _: break
-                    data += _
+                    data += _.decode()
         except Exception as err:
             log.exception("{} : {} - {}".format(host, port, err))
 
