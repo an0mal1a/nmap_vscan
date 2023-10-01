@@ -67,7 +67,7 @@ class ServiceProbe(Nmap):
             self.fatal("Failed to open nmap-service-probes file %s for reading" % filename)
 
         lines = []
-        with open(filename, "r") as fp:
+        with open(filename, "r", encoding="utf-8") as fp:
             for line in fp:
                 if line.startswith("\n") or line.startswith("#"): continue
                 lines.append(line)
@@ -417,7 +417,7 @@ class ServiceScan(ServiceProbe):
                 while True:
                     _ = client.recv(SOCKET_READ_BUFFERSIZE)
                     if not _: break
-                    data += _.decode()
+                    data += _.decode(encoding="utf-8", errors="ignore")
         except Exception as err:
             log.exception("{} : {} - {}".format(host, port, err))
 

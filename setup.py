@@ -1,13 +1,12 @@
-from distutils.core import setup
-
+from setuptools import setup
 
 setup(
-    name='nmap_vscan',
-    version='1.1.0',
-    author='Nixawk',
+    name='nmap_vscan_fix',
+    version='1.1.5',
+    author='An0m',
     author_email='',
     license='MIT',
-    url='https://github.com/nixawk/nmap_vscan',
+    long_description_content_type="text/x-rst",
     description='nmap service and application version detection (without nmap installation)',
     long_description=open('README.rst').read(),
     keywords='nmap vscan fingerprint recognition security',
@@ -22,4 +21,3 @@ setup(
     ],
 )
 
-# https://pypi.python.org/pypi?%3Aaction=list_classifiers
