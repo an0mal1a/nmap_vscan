@@ -15,7 +15,7 @@ Install
 
 The quick way::
 
-    pip install nmap_vscan
+    pip install nmap_vscan_fix
 
 
 Usage
