@@ -419,7 +419,7 @@ class ServiceScan(ServiceProbe):
                     if not _: break
                     data += _.decode(encoding="utf-8", errors="ignore")
         except Exception as err:
-            log.exception("{} : {} - {}".format(host, port, err))
+            raise err
 
         return data
 
