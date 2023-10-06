@@ -1,7 +1,5 @@
 #!/usr/bin/python
-# -*- coding: utf-8 -*-
-
-# Author: Nixawk
+# Author: an0mal1a
 
 """
 $ python2.7 vscan.py
@@ -19,6 +17,7 @@ $ python2.7 vscan.py
 
 import os
 import re
+import ast
 import codecs
 import socket
 import logging
@@ -29,7 +28,7 @@ logging.basicConfig(level=logging.INFO)
 log = logging.getLogger(__name__)
 
 
-SOCKET_TIMEOUT = 30                # SOCKET DEFAULT TIMEOUT
+SOCKET_TIMEOUT = 15                # SOCKET DEFAULT TIMEOUT
 SOCKET_READ_BUFFERSIZE = 1024      # SOCKET DEFAULT READ BUFFER
 NMAP_ENABLE_PROBE_INCLUED = True   # Scan probes inclued target port
 NMAP_ENABLE_PROBE_EXCLUED = True   # Scan probes exclued target port
@@ -378,6 +377,7 @@ class ServiceScan(ServiceProbe):
         """Send request(s) based on nmap probestring(s)
         """
         proto = probe['probe']['protocol']
+
         payload = probe['probe']['probestring']
         payload, _ = codecs.escape_decode(payload)
 
@@ -407,7 +407,6 @@ class ServiceScan(ServiceProbe):
     def send_tcp_request(self, host, port, payload, timeout):
         """Send tcp payloads by port number.
         """
-
         data = ''
         try:
             with contextlib.closing(socket.socket(socket.AF_INET, socket.SOCK_STREAM)) as client:
@@ -416,10 +415,24 @@ class ServiceScan(ServiceProbe):
                 client.send(payload)
                 while True:
                     _ = client.recv(SOCKET_READ_BUFFERSIZE)
-                    if not _: break
-                    data += _.decode(encoding="utf-8", errors="ignore")
+                    if _:
+                        data += _.decode(encoding="utf-8", errors="ignore")
+                        break
+                    elif not _:
+                        break
+                    else:
+                        continue
+
+        except socket.timeout as err:
+            if data:
+                return data
+            else:
+                raise err
         except Exception as err:
-            raise err
+            if data:
+                return data
+            else: raise err
+            #log.exception("{} : {} - {}".format(host, port, err))
 
         return data
 
